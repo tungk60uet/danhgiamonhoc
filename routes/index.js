@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
-
+var User = require('../models/user');
 // Get Homepage
 router.get('/', ensureAuthenticated, function(req, res){
 	if(req.user.usertype==='admin')
-		res.render('adminDashboard');
+		User.getAllUser(function(err,users){
+			res.render('adminDashboard',{users:users});
+		});
+		
 	else
 	res.send('dan thuong :))');
 });
