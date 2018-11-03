@@ -57,7 +57,6 @@ router.post('/update', function(req, res) {
   	res.send('200');
   }
 });
-
 passport.use(new LocalStrategy(
   function(username, password, done) {
     User.getUserByUsername(username, function(err, user) {
@@ -79,7 +78,6 @@ passport.use(new LocalStrategy(
       });
     });
   }));
-
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });

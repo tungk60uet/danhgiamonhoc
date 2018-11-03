@@ -1,3 +1,53 @@
+var listSurveyTemplate=[];
+$(document).ready(function() {
+  fillSurveyTemplate();
+  fillUserList();
+  fillSurveyList();
+});
+function fillUserList(){
+  $.ajax({
+    method: "GET",
+    url: "/users/userlist",
+    success: function(data){
+      $(".user-list").empty();
+      $(".lec-container").empty();
+      data.forEach(function(item){
+        $(".user-list").append("<button type='button' id='"+item._id+"'username='"+item.username+"' usertype='"+item.usertype+"' class='list-group-item list-group-item-action'>"+item.name+"</button>");
+        if(item.usertype==="lec")
+          $(".lec-container").append("<option value='"+item.username+"'>"+item.name+"</option>");
+      });
+    }
+  });
+}
+function fillSurveyList(){
+  $.ajax({
+    method: "GET",
+    url: "/survey/read",
+    success: function(data){
+      $(".survey-list").empty();
+      data.forEach(function(item){
+        $(".survey-list").append("<button type='button' id='"+item._id+"' class='list-group-item list-group-item-action'>"+item.name+"</button>");
+      });
+    }
+  });
+}
+function fillSurveyTemplate(){
+  $.ajax({
+    method: "GET",
+    url: "/surveyTemplate/read",
+    success: function(data){
+      listSurveyTemplate=data;
+      $(".survey-template-container").empty();
+      $(".survey-template-dropdown").empty();
+      data.forEach(function(item){
+        $(".survey-template-container").append("<button type='button' id='"+item._id+"' class='list-group-item list-group-item-action'>"+item.name+"</button>");
+        $(".survey-template-dropdown").append("<option value='"+item._id+"'>"+item.name+"</option>");
+      });
+    }
+  });
+};
+
+//user//
 function CreateNewUser() {
   $.ajax({
     method: "POST",
@@ -16,7 +66,6 @@ $(".btn-del-user").click(function(){
     $("#editAccountModal").modal("hide");
   });
 });
-
 $(".btn-update-user").click(function(){
   $.ajax({
     method: "POST",
@@ -41,11 +90,59 @@ $('.user-list').on('click', 'button', function() {
   $(".input-edit-usertype").val(utype);
 	$("#editAccountModal").modal("toggle");
 });
-
+//user
+//survey
+var surveySelected;
 $('.survey-list').on('click', 'button', function() {
-  $("#dialogServey").modal("toggle");
+  $.ajax({
+      method: "POST",
+      url: "/survey/readId",
+      dataType: 'json',
+      data:{_id:$(this).attr('id')},
+      success: function(data){
+          console.log(data);
+          surveySelected=data;
+          $("#dialogServey .name").val(data["name"]);
+          $("#dialogServey .lecture").val($(".lec-container").find("[value='"+data["lecid"]+"']").html());
+          $("#dialogServey .result").empty();
+          $("#dialogServey .result").append("<option value='tonghop'>Tổng hợp</option>");
+          data["result"].forEach(function(element) {
+            $("#dialogServey .result").append("<option value='"+element.username+"'>"+$(".user-list").find("[username='"+element.username+"']").html()+"</option>");
+          });
+          $("#dialogServey").modal("toggle");
+      }
+  });
 });
 
+$("#dialogServey .delete").click(function(){
+  $.ajax({
+      method: "POST",
+      url: "/survey/delete",
+      dataType: 'json',
+      data:{_id:surveySelected._id},
+      success: function(data){
+          console.log("del");
+          $("#dialogServey").modal("toggle");
+          fillSurveyList();
+      }
+    });
+});
+$(".btn-save-survey").click(function(){
+  $.ajax({
+      method: "POST",
+      url: "/survey/create",
+      dataType: 'json',
+      data:{name:$("#dialogAddServey .name").val(),lecid:$("#dialogAddServey .lec-container").val(),templateid:$("#dialogAddServey .survey-template-dropdown").val(),listuser:$("#dialogAddServey textarea").val().split('\n')},
+      success: function(data){
+          console.log("create");
+          $("#dialogAddServey").modal("toggle");
+          fillSurveyList();
+      }
+    });
+});
+
+//survey
+//survey-template
 $(".btn-add-question").click(function(){
   $(".question-container").append("<div class='form-group row px-3'> <input type='text' class='col form-control'> <button type='button' class='col-1 btn btn-danger btn-del-question'>Xóa</button> </div>");
 });
@@ -118,48 +215,4 @@ $('.survey-template-container').on('click', 'button', function() {
   });
   $('#dialogServeyTemplate').modal('toggle');
 });
-var listSurveyTemplate=[];
-$(document).ready(function() {
-  fillSurveyTemplate();
-  fillUserList();
-  fillSurveyList();
-});
-function fillUserList(){
-  $.ajax({
-    method: "GET",
-    url: "/users/userlist",
-    success: function(data){
-      $(".user-list").empty();
-      data.forEach(function(item){
-        $(".user-list").append("<button type='button' id='"+item._id+"'username='"+item.username+"' usertype='"+item.usertype+"' class='list-group-item list-group-item-action'>"+item.name+"</button>");
-      });
-    }
-  });
-}
-function fillSurveyList(){
-  $.ajax({
-    method: "GET",
-    url: "/survey/read",
-    success: function(data){
-      $(".survey-list").empty();
-      data.forEach(function(item){
-        $(".survey-list").append("<button type='button' id='"+item._id+"' class='list-group-item list-group-item-action'>"+item.name+"</button>");
-      });
-    }
-  });
-}
-function fillSurveyTemplate(){
-  $.ajax({
-    method: "GET",
-    url: "/surveyTemplate/read",
-    success: function(data){
-      listSurveyTemplate=data;
-      $(".survey-template-container").empty();
-      $(".survey-template-dropdown").empty();
-      data.forEach(function(item){
-        $(".survey-template-container").append("<button type='button' id='"+item._id+"' class='list-group-item list-group-item-action'>"+item.name+"</button>");
-        $(".survey-template-dropdown").append("<option value='"+item._id+"'>"+item.name+"</option>");
-      });
-    }
-  });
-};
+

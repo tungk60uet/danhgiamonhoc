@@ -5,9 +5,14 @@ var Survey = require('../models/survey');
 
 router.post('/create', function(req, res) {
     var result=[];
-    req.body["listuser[]"].forEach(function(item){
-      result.push({username:item,rate:[]});
-    });
+    console.log();
+    if (req.body["listuser[]"] instanceof Array) {
+      req.body["listuser[]"].forEach(function(item){
+       result.push({username:item,rate:[]});
+      });
+    } else {
+      result.push({username:req.body["listuser[]"],rate:[]});
+    }
     var newSurvey = new Survey({
       name: req.body["name"],
       lecid: req.body["lecid"],
@@ -23,16 +28,16 @@ router.get('/read', function(req, res) {
   });
 });
 router.post('/readId', function(req, res) {
-  Survey.getSurveyById(req.body["_id"],function(err,surveys){
-    res.send(surveys);
+  Survey.getSurveyById(req.body["_id"],function(err,survey){
+    res.send(survey);
   });
 });
 router.post('/update', function(req, res) {
-  Survey.updateSurvey(req.body["_id"],req.body["name"],req.body["listquestion[]"]);
+//  Survey.updateSurvey(req.body["_id"],req.body["name"],req.body["listquestion[]"]);
   res.send("200");
 });
 router.post('/delete', function(req, res) {
-  Survey.delSurvey(req.body["_id"]);
+  Survey.delSurveyById(req.body["_id"]);
   res.send("200");
 });
 module.exports = router;

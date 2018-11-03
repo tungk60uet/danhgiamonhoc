@@ -131,14 +131,12 @@
               <form>
                 <div class="form-group">
                   <label>Tên cuộc khảo sát</label>
-                  <input type="text" class="form-control" placeholder="Phát triển ứng dụng web">
+                  <input type="text" class="form-control name" placeholder="Phát triển ứng dụng web">
                 </div>
                 <div class="form-group">
                   <label>Giảng viên</label>
-                  <select class="form-control">
+                  <select class="form-control lec-container">
                     <option>Thầy 1</option>
-                    <option>Cô 2</option>
-                    <option>Cô 3</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -157,7 +155,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary btn-save-survey">Save changes</button>
             </div>
           </div>
         </div>
@@ -179,18 +177,17 @@
               <form>
                 <div class="form-group">
                   <label>Tên cuộc khảo sát</label>
-                  <input type="text" readonly class="form-control-plaintext" value="Phát triển ứng dụng web">
+                  <input type="text" readonly class="form-control-plaintext name" value="Phát triển ứng dụng web">
                 </div>
                 <div class="form-group">
                   <label>Giảng viên</label>
-                  <input type="text" readonly class="form-control-plaintext" value="Lê Đình Thành">
+                  <input type="text" readonly class="form-control-plaintext lecture" value="Lê Đình Thành">
                 </div>
                 <div class="form-group">
                   <label>Kết quả khảo sát</label>
-                  <select class="form-control">
-                    <option>Tổng hợp</option>
-                    <option>Sinh viên 1</option>
-                    <option>Sinh viên 2</option>
+                  <select class="form-control result">
+                    <option value=0>Tổng hợp</option>
+
                   </select>
                   <table class="table table-striped">
                     <thead>
@@ -217,9 +214,8 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger mr-auto">Delete</button>
+              <button type="button" class="btn btn-danger mr-auto delete">Delete</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
             </div>
           </div>
         </div>
