@@ -7,15 +7,9 @@ var UserSchema = mongoose.Schema({
 		type: String,
 		index:true
 	},
-	password: {
-		type: String
-	},
-	name: {
-		type: String
-	},
-	usertype: {
-		type: String
-	}
+	password: String,
+	name: String,
+	usertype: String
 });
 
 var User = module.exports = mongoose.model('User', UserSchema);
@@ -39,6 +33,23 @@ module.exports.getUserById = function(id, callback){
 }
 module.exports.getAllUser = function(callback){
 	User.find({},callback);
+}
+module.exports.delUserByUsername = function(username){
+	var query = {username: username};
+	User.deleteOne(query, function (err) {
+  	if (err) return handleError(err);
+	});
+}
+module.exports.updateUser = function(username,name,newpassword){
+	this.getUserByUsername(username,function(err,user){
+		user.name=name;
+		bcrypt.genSalt(10, function(err, salt) {
+				bcrypt.hash(newpassword, salt, function(err, hash) {
+						user.password = hash;
+						user.save();
+				});
+		});
+	});
 }
 module.exports.comparePassword = function(candidatePassword, hash, callback){
 	bcrypt.compare(candidatePassword, hash, function(err, isMatch) {

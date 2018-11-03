@@ -50,7 +50,7 @@
                 </div>
                 <div class="form-group">
                   <label>Password</label>
-                  <input type="password" class="form-control" id="addAccPass" placeholder="Mặc định 123456">
+                  <input type="text" class="form-control" id="addAccPass" placeholder="Mặc định 123456">
                 </div>
                 <div class="form-group">
                   <label>Loại tk</label>
@@ -69,12 +69,8 @@
           </div>
         </div>
       </div>
-      <div class="list-group">
-            <% users.forEach(function(user) { %>
-                    <button username=<%= user.username %> password=<%= user.password %> usertype=<%= user.usertype %> type="button" class="list-group-item list-group-item-action"> 
-                      <%= user.name %> 
-                    </button>
-            <% }); %>
+      <div class="list-group user-list">
+
       </div>
       <div class="modal fade" id="editAccountModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -87,28 +83,29 @@
             </div>
             <div class="modal-body">
               <form>
+
+                <div class="form-group">
+                  <label>Username</label>
+                  <input type="text" readonly class="form-control input-edit-username" value="123456">
+                </div>
+                <div class="form-group">
+                  <label>Đặt lại mật khẩu</label>
+                  <input type="text" class="form-control input-edit-pass" placeholder="Mật khẩu mới">
+                </div>
                 <div class="form-group">
                   <label>Họ tên</label>
                   <input type="text" class="form-control input-edit-name" value="Nguyen Van A">
                 </div>
                 <div class="form-group">
-                  <label>Username</label>
-                  <input type="text" readonly class="form-control-plaintext input-edit-username" value="123456">
-                </div>
-                <div class="form-group">
-                  <label>Password</label>
-                  <input type="password" class="form-control input-edit-pass" value="123456">
-                </div>
-                <div class="form-group">
                   <label>Loại tk</label>
-                  <input type="text" readonly class="form-control-plaintext" value="Sinh viên">
+                  <input type="text" readonly class="form-control input-edit-usertype" value="Sinh viên">
                 </div>
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger mr-auto">Delete</button>
+              <button type="button" class="btn btn-danger mr-auto btn-del-user">Delete</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary btn-update-user">Save changes</button>
             </div>
           </div>
         </div>
@@ -146,7 +143,7 @@
                 </div>
                 <div class="form-group">
                   <label>Mẫu khảo sát</label>
-                  <select class="form-control">
+                  <select class="form-control survey-template-dropdown">
                     <option>Mẫu 1</option>
                     <option>Mẫu 2</option>
                     <option>Mẫu 3</option>
@@ -165,11 +162,8 @@
           </div>
         </div>
       </div>
-      <div class="list-group">
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#dialogServey"> Cras justo odio </button>
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#dialogServey">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#dialogServey">Morbi leo risus</button>
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#dialogServey">Porta ac consectetur ac</button>
+      <div class="list-group survey-list">
+
       </div>
 
       <div class="modal fade" id="dialogServey" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -235,7 +229,7 @@
     </div>
     <div class="tab-pane" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
       <!-- Cac phieu khao sat -->
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#dialogServeyTemplate">
+      <button type="button" class="btn btn-primary add-survey-template">
         Them phieu
       </button>
       <!-- Modal -->
@@ -252,28 +246,24 @@
               <form>
                 <div class="form-group">
                   <label>Tên phiếu ks</label>
-                  <input type="text" class="form-control" placeholder="Phiếu ks hk 1">
+                  <input type="text" class="form-control input-name-surveyTemplate" placeholder="Phiếu ks hk 1">
                 </div>
                 <label>Các câu khảo sát</label>
-                <div class="form-group row p-3">
-                  <input type="text" class="col form-control ">
-                  <button type="button" class="col-1 btn btn-danger">Xóa</button>
+                <div class="question-container">
                 </div>
-                <button type="button" class="btn btn-primary">+Thêm câu hỏi</button>
+                <button type="button" class="btn btn-primary btn-add-question">+Thêm câu hỏi</button>
               </form>
             </div>
             <div class="modal-footer">
+              <button type="button" class="btn btn-danger mr-auto btn-del-survey-template">Delete</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+              <button type="button" class="btn btn-primary btn-save-survey-template">Save changes</button>
             </div>
           </div>
         </div>
       </div>
-      <div class="list-group">
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#dialogServeyTemplate"> Cras justo odio </button>
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#dialogServeyTemplate">Dapibus ac facilisis in</button>
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#dialogServeyTemplate">Morbi leo risus</button>
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#dialogServeyTemplate">Porta ac consectetur ac</button>
+      <div class="list-group survey-template-container">
+        <button type="button" id="123" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
       </div>
       <!-- Cac phieu khao sat -->
     </div>

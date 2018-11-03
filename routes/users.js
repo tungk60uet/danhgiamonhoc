@@ -15,6 +15,11 @@ router.get('/login', function(req, res) {
   res.send('login');
 });
 
+router.get('/userlist', function(req, res) {
+  User.getAllUser(function(err,users){
+    res.send(users);
+  });
+});
 // Register User
 router.post('/register', function(req, res) {
   if(req.user.usertype==='admin'){
@@ -30,8 +35,25 @@ router.post('/register', function(req, res) {
   	});
   	User.createUser(newUser, function(err, user) {
   		if (err) throw err;
-  		console.log(user);
   	});
+  	res.send('200');
+  }
+});
+
+router.post('/delete', function(req, res) {
+  if(req.user.usertype==='admin'&&req.user.username!=req.body.username){
+    var username = req.body.username;
+  	User.delUserByUsername(username);
+  	res.send('200');
+  }
+});
+
+router.post('/update', function(req, res) {
+  if(req.user.usertype==='admin'){
+    var username = req.body.username;
+    var name = req.body.name;
+    var password = req.body.password;
+  	User.updateUser(username,name,password);
   	res.send('200');
   }
 });
