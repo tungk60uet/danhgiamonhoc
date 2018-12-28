@@ -5,7 +5,6 @@ var Survey = require('../models/survey');
 
 router.post('/create', function(req, res) {
     var result=[];
-    console.log();
     if (req.body["listuser[]"] instanceof Array) {
       req.body["listuser[]"].forEach(function(item){
        result.push({username:item,rate:[]});
