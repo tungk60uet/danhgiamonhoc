@@ -5,6 +5,7 @@ var SurveySchema = mongoose.Schema({
 	name: String,
 	lecid: String,
 	templateid: String,
+	deadline: Date,
 	result: [{
 		username: String,
 		rate: [{
